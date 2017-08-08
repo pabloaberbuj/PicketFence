@@ -32,15 +32,6 @@ namespace AnalisisPicketFence
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*string[] picosArray = new string[768];
-            
-            for (int i=0;i<768;i++)
-            {
-                List<double> picos = PicketFence.buscarPicoEnMatriz(picketFence.matriz, i, 0, longSegmento);
-                picosArray[i] = string.Join("\t", picos.Select(n => n.ToString()).ToArray());
-            }
-            File.WriteAllLines(archivo, picosArray);
-            MessageBox.Show("");*/
             int longSegmento = Convert.ToInt32(distancia / (3 * picketFence.resX)); //el ancho de medio pico
             int distEntreLaminas = Convert.ToInt32(5 / (3 * picketFence.resX));
             double rotacion = PicketFence.analizarRotacion(picketFence.matriz, picketFence.resX, picketFence.tamCampoY, distEntreLaminas);
@@ -48,8 +39,25 @@ namespace AnalisisPicketFence
             MessageBox.Show("Se observó una rotación de" + rotacion.ToString() + " pixeles" + "\n que corresponde a" +rotacionEnmm.ToString() + " mm" );
             string[] picosArray = PicketFence.buscarPicosEnTodasLasLaminas(picketFence.matriz, 5, longSegmento, picketFence.resX, picketFence.tamCampoY, distEntreLaminas);
             File.WriteAllLines(archivo, picosArray);
-            MessageBox.Show("");
-            
+            MessageBox.Show("Listo");
+        }
+
+        private void BT_1PicoLargo_Click(object sender, EventArgs e)
+        {
+            int longSegmento = Convert.ToInt32(distancia / (3 * picketFence.resX)); //el ancho de medio pico
+            int distEntreLaminas = Convert.ToInt32(5 / (3 * picketFence.resX));
+            string[] picosArray = PicketFence.buscarPicosEnTodasLasLaminasMenosDos(picketFence.matriz, 5, longSegmento, picketFence.resX, picketFence.tamCampoY, distEntreLaminas);
+            File.WriteAllLines(archivo, picosArray);
+            MessageBox.Show("Listo");
+        }
+
+        private void BT_1pico1Lam_Click(object sender, EventArgs e)
+        {
+            int longSegmento = Convert.ToInt32(distancia / (3 * picketFence.resX)); //el ancho de medio pico
+            int distEntreLaminas = Convert.ToInt32(5 / (3 * picketFence.resX));
+            string picosArray = PicketFence.buscarPicosEnLaminaCentral(picketFence.matriz, 5, longSegmento, picketFence.resX, picketFence.tamCampoY, distEntreLaminas);
+            File.WriteAllText(archivo, picosArray);
+            MessageBox.Show("Listo");
         }
     }
 }

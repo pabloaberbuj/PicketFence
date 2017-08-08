@@ -215,6 +215,7 @@ namespace AnalisisPicketFence
             posicionLaminas.Add(posicionLaminas[picosInterLaminas.Count() - 1] + Convert.ToInt32(distPromedio));
             return posicionLaminas;
         }
+
         public static double analizarRotacion(double[,] matriz, double resolucion, double tamCampoY, int largoSegmento)
         {
             int[] posicionPicos = buscarPicosAprox(matriz, tamCampoY, resolucion, largoSegmento);
@@ -247,6 +248,28 @@ namespace AnalisisPicketFence
                 List<Pico> aux = buscarPicosEnLamina(matriz, posicionLaminas[i], semiAncho, largoSegmento, matriz.GetLength(0), resolucion);
                 picosArray[i] = string.Join("\t", aux.Select(n => n.posicionmm.ToString()).ToArray())+ "\t\t" + string.Join("\t", aux.Select(n => n.alturaPico.ToString()).ToArray()) + "\t\t" + string.Join("\t", aux.Select(n => n.anchoPico.ToString()).ToArray());
             }
+            return picosArray;
+        }
+
+        public static string[] buscarPicosEnTodasLasLaminasMenosDos(double[,] matriz, int semiAncho, int largoSegmento, double resolucion, double tamCampoY, int distEntreLaminas)
+        {
+            List<int> posicionLaminas = buscarPosicionLaminas(matriz, resolucion, tamCampoY, distEntreLaminas);
+            posicionLaminas.RemoveAt(0); posicionLaminas.RemoveAt(posicionLaminas.Count() - 1);
+            string[] picosArray = new string[posicionLaminas.Count()];
+            for (int i = 0; i < posicionLaminas.Count(); i++)
+            {
+                List<Pico> aux = buscarPicosEnLamina(matriz, posicionLaminas[i], semiAncho, largoSegmento, matriz.GetLength(0), resolucion);
+                picosArray[i] = string.Join("\t", aux.Select(n => n.posicionmm.ToString()).ToArray()) + "\t\t" + string.Join("\t", aux.Select(n => n.alturaPico.ToString()).ToArray()) + "\t\t" + string.Join("\t", aux.Select(n => n.anchoPico.ToString()).ToArray());
+            }
+            return picosArray;
+        }
+
+        public static string buscarPicosEnLaminaCentral(double[,] matriz, int semiAncho, int largoSegmento, double resolucion, double tamCampoY, int distEntreLaminas)
+        {
+            List<int> posicionLaminas = buscarPosicionLaminas(matriz, resolucion, tamCampoY, distEntreLaminas);
+            List<Pico> aux = buscarPicosEnLamina(matriz, posicionLaminas[18], semiAncho, largoSegmento, matriz.GetLength(0), resolucion);
+            string picosArray = string.Join("\t", aux.Select(n => n.posicionmm.ToString()).ToArray()) + "\t\t" + string.Join("\t", aux.Select(n => n.alturaPico.ToString()).ToArray()) + "\t\t" + string.Join("\t", aux.Select(n => n.anchoPico.ToString()).ToArray());
+            
             return picosArray;
         }
     }
