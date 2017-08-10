@@ -9,9 +9,9 @@ namespace AnalisisPicketFence
     public class Pico
     {
         public int numeroLamina { get; set; }
-        public int posicionPix { get; set; }
+        public double posicionPix { get; set; }
         public double posicionmm { get; set; }
-        public int anchoPico { get; set; }
+        public double anchoPico { get; set; }
         public double alturaPico { get; set; }
     }
 }
