@@ -69,6 +69,7 @@ namespace AnalisisPicketFence
                                 }*/
                 }
             }
+            Indice = interpolar(X1, X2, i1, i2, X);
             return Indice;
         }
     }

@@ -116,14 +116,19 @@ namespace AnalisisPicketFence
         public static Pico buscarCentroPico(double[] fila, int posicion, int largoSegmento, int tamMatriz, double resolucion, double factor)
         {
 
-            double[] auxArrayCentrado = new double[largoSegmento];
-            double[] auxArrayCentradoInvertido = new double[largoSegmento];
-            Array.Copy(fila, posicion - Convert.ToInt32(largoSegmento / 2), auxArrayCentrado, 0, largoSegmento);
-            Array.Copy(auxArrayCentrado, auxArrayCentradoInvertido, largoSegmento);
+            int largox3 = Convert.ToInt32(largoSegmento * 1.8);
+            double[] auxArrayCentrado = new double[largox3];
+            double[] auxArrayCentradoInvertido = new double[largox3];
+            Array.Copy(fila, posicion - Convert.ToInt32(largox3 / 2), auxArrayCentrado, 0, largox3);
+            Array.Copy(auxArrayCentrado, auxArrayCentradoInvertido, largox3);
             Array.Reverse(auxArrayCentradoInvertido);
-            double inicio = Calcular.interpolarLineaIndice(fila[posicion] * factor, auxArrayCentrado);
+            double auxPico = (auxArrayCentrado.Max() - auxArrayCentrado.Min()) * 0.8;
+            //double auxPico = 0.8 * fila[posicion] + 0.2 * fila.Average();
+            double inicio = Calcular.interpolarLineaIndice(auxPico, auxArrayCentrado);
+            //double inicio = Calcular.interpolarLineaIndice(fila[posicion] * factor, auxArrayCentrado);
             //    int inicioI = Array.FindIndex(auxArrayCentrado, x => x > fila[posicion]*0.8);
-            double fin = auxArrayCentrado.Count() - 1 - Calcular.interpolarLineaIndice(fila[posicion] * factor, auxArrayCentradoInvertido);
+            double fin = auxArrayCentrado.Count() - 1 - Calcular.interpolarLineaIndice(auxPico, auxArrayCentradoInvertido);
+            //double fin = auxArrayCentrado.Count() - 1 - Calcular.interpolarLineaIndice(fila[posicion] * factor, auxArrayCentradoInvertido);
             //    int finI = Array.FindLastIndex(auxArrayCentrado, x => x > fila[posicion] * 0.8);
             double aux = (inicio + fin) / 2;
             /*    Pico nuevoPico = new Pico
@@ -136,8 +141,8 @@ namespace AnalisisPicketFence
                 */
             Pico nuevoPico = new Pico
             {
-                posicionPix = posicion - largoSegmento / 2 + aux,
-                posicionmm = Math.Round((posicion - largoSegmento / 2 + aux - tamMatriz / 2) * resolucion, 3),
+                posicionPix = posicion - largox3 / 2 + aux,
+                posicionmm = Math.Round((posicion - largox3 / 2 + aux - tamMatriz / 2) * resolucion, 3),
                 anchoPico = fin - inicio,
                 alturaPico = Math.Round(auxArrayCentrado.Max(),5),
                 //alturaPico = Math.Round((auxArrayCentrado[Convert.ToInt32(Math.Floor(aux))] + auxArrayCentrado[Convert.ToInt32(Math.Ceiling(aux))]) / 2, 5),
@@ -195,8 +200,8 @@ namespace AnalisisPicketFence
         public static int[] buscarPicosAprox(double[,] matriz, double tamCampoY, double resolucion, int largoSegmento, double factor)
         {
             int[] posicionPicos = new int[3];
-            int posicionArriba = Convert.ToInt32(matriz.GetLength(1) / 2 - tamCampoY / resolucion / 3);
-            int posicionAbajo = Convert.ToInt32(matriz.GetLength(1) / 2 + -tamCampoY / resolucion / 3);
+            int posicionArriba = Convert.ToInt32(matriz.GetLength(1) / 2 - tamCampoY*10 / resolucion / 3);
+            int posicionAbajo = Convert.ToInt32(matriz.GetLength(1) / 2 + tamCampoY*10 / resolucion / 3);
             int posicionCentro = Convert.ToInt32(matriz.GetLength(1) / 2);
             List<Pico> picoArriba = buscarPicoEnMatriz(matriz, posicionArriba, largoSegmento, matriz.GetLength(0), resolucion,factor);
             List<Pico> picoCentro = buscarPicoEnMatriz(matriz, posicionCentro, largoSegmento, matriz.GetLength(0), resolucion,factor);

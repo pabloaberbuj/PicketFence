@@ -33,11 +33,11 @@ namespace AnalisisPicketFence
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int longSegmento = Convert.ToInt32(distancia / (3 * picketFence.resX)*2); //el ancho de medio pico
-            int distEntreLaminas = Convert.ToInt32(5 / (3 * picketFence.resX)*2);
-       //     double rotacion = PicketFence.analizarRotacion(picketFence.matriz, picketFence.resX, picketFence.tamCampoY, distEntreLaminas);
-       //     double rotacionEnmm = Math.Round(rotacion * picketFence.resX,3);
-         //   MessageBox.Show("Se observó una rotación de" + rotacion.ToString() + " pixeles" + "\n que corresponde a" +rotacionEnmm.ToString() + " mm" );
+            int longSegmento = Convert.ToInt32(distancia / (2.5 * picketFence.resX)); //el ancho de medio pico
+            int distEntreLaminas = Convert.ToInt32(5 / (2.5 * picketFence.resX));
+            double rotacion = PicketFence.analizarRotacion(picketFence.matriz, picketFence.resX, picketFence.tamCampoY, distEntreLaminas);
+            double rotacionEnmm = Math.Round(rotacion * picketFence.resX,3);
+            MessageBox.Show("Se observó una rotación de" + rotacion.ToString() + " pixeles" + "\n que corresponde a" +rotacionEnmm.ToString() + " mm" );
             string[] picosArray = PicketFence.buscarPicosEnTodasLasLaminas(picketFence.matriz, 5, longSegmento, picketFence.resX, picketFence.tamCampoY, distEntreLaminas);
             File.WriteAllLines(archivo, picosArray);
             MessageBox.Show("Listo");
